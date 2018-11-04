@@ -1,11 +1,18 @@
 import React from 'react';
 import './App.css';
-import PropTypes from 'prop-types';
+import TodoCardContainer from './containers/TodoCardContainer';
+import AddTodoContainer from './containers/AddTodoContainer';
 
-const App = ({ testProp }) => <div className="App">{testProp}</div>;
-
-App.propTypes = {
-  testProp: PropTypes.number.isRequired,
-};
+const App = () => (
+  <div className="container">
+    {/* <div className="row justify-content-md-center">
+      <AddTodo />
+    </div> */}
+    <div className="row justify-content-md-center">
+      <TodoCardContainer />
+      <AddTodoContainer />
+    </div>
+  </div>
+);
 
 export default App;

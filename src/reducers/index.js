@@ -1,28 +1,36 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-import { SKIP_TODO, REMOVE_TODO, ADD_TODO } from '../constants/ActionTypes';
+import DefaultEmptyTodo from '../constants/DefaultEmptyTodo';
+import {
+  SKIP_TODO,
+  ADD_TODO,
+  COMPLETE_TODO,
+} from '../constants/ActionTypes';
+import addTodoReducer, { getForm } from './addTodoForm';
 
-const todosReducer = (state, action) => {
-  const { todos } = state;
+const todosReducer = (
+  state = [
+    { title: 'First Todo', discription: 'the first todo' },
+    { title: 'Second Todo', discription: 'the Second todo' },
+  ],
+  action,
+) => {
   switch (action.type) {
-    case SKIP_TODO:
-      return {
-        ...state,
-        todos:
-          todos.length > 0 ? [...todos.slice(1, todos.length), todos[0]] : [],
-      };
+    case COMPLETE_TODO:
+      return state.length > 0 ? [...state.slice(1, state.length)] : [];
 
-    case REMOVE_TODO:
-      return {
-        ...state,
-        todos: todos.length > 0 ? [...todos.slice(1, todos.length)] : [],
-      };
+    case SKIP_TODO:
+      return state.length > 0
+        ? [...state.slice(1, state.length), state[0]]
+        : [];
 
     case ADD_TODO:
-      return {
+      return [
         ...state,
-        todos: [...todos, action.todo],
-      };
+        {
+          title: action.title,
+          discription: action.discription,
+        },
+      ];
 
     default:
       return state;
@@ -31,7 +39,14 @@ const todosReducer = (state, action) => {
 
 const reducer = combineReducers({
   todos: todosReducer,
-  form: formReducer,
+  addTodoForm: addTodoReducer,
 });
 
 export default reducer;
+
+const currentTodo = state => state.todos[0] || DefaultEmptyTodo;
+
+export const getAddTodoForm = state => getForm(state.addTodoForm);
+export const getCurrentTodoTitle = state => currentTodo(state).title;
+export const getCurrnetTodoDiscription = state =>
+  currentTodo(state).discription;

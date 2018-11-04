@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reducer from './reducers';
+import 'bootstrap/dist/css/bootstrap.css';
 
 const middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
@@ -18,7 +19,7 @@ const store = createStore(reducer, applyMiddleware(...middleware));
 
 ReactDOM.render(
   <Provider store={store}>
-    <App testProp={10} />
+    <App />
   </Provider>,
   document.getElementById('root'),
 );
